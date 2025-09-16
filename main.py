@@ -2,10 +2,8 @@
 import subprocess
 import json
 import streamlit as st
-
-# --- Step 1: Run preprocess.py before anything else ---
-# This will only run once when the app starts
-subprocess.run(["python", "preprocess.py"], check=True)
+import sys
+subprocess.run([sys.executable, "preprocess.py"], check=True)
 
 # --- Step 2: Now import your modules (they rely on preprocessed data) ---
 from recommend import df, recommend_movies
