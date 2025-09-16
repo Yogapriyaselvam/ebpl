@@ -1,15 +1,21 @@
-# app.py
+# main.py
+import subprocess
 import json
 import streamlit as st
+
+# --- Step 1: Run preprocess.py before anything else ---
+# This will only run once when the app starts
+subprocess.run(["python", "preprocess.py"], check=True)
+
+# --- Step 2: Now import your modules (they rely on preprocessed data) ---
 from recommend import df, recommend_movies
 from omdb_utils import get_movie_details
 
-
+# --- Step 3: Load configuration ---
 config = json.load(open("config.json"))
-
-# OMDB api key
 OMDB_API_KEY = config["OMDB_API_KEY"]
 
+# --- Step 4: Streamlit UI ---
 st.set_page_config(
     page_title="Movie Recommender",
     page_icon="🎬",
@@ -18,7 +24,6 @@ st.set_page_config(
 
 st.title("🎬 Movie Recommender")
 
-# Using 'title' instead of 'song' now
 movie_list = sorted(df['title'].dropna().unique())
 selected_movie = st.selectbox("🎬 Select a movie:", movie_list)
 
